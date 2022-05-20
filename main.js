@@ -11,7 +11,8 @@ process.argv.forEach((v, i) => {
         case "-b":
         case "--branches": branchSearch = process.argv[i+1].split(','); break;
     }
-})
+});
+
 axios
     .get('https://pass-og-id.politiet.no/qmaticwebbooking/rest/schedule/appointmentProfiles/', { validateStatus: (s) => s === 200})
     .then((res) => {        
