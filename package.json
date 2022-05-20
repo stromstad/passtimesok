@@ -1,0 +1,14 @@
+{
+  "name": "passport-checker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Jonas Strømstad",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
