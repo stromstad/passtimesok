@@ -12,8 +12,9 @@ Options:
 
 F.eks:
 ```
-node main.js -b gronland,lillestrom,hamar -i
+node main.js -b gronland,lillestrom,hamar,drammen -i
+Drammen politistasjon: ingen
+Grønland politistasjon: 2022-05-20
 Politiets publikumssenter - Lillestrøm: 2022-07-27
 Hamar politistasjon: 2022-10-13
-Grønland politistasjon: 2022-11-07
 ```
