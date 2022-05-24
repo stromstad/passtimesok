@@ -9,6 +9,7 @@
   "author": "Jonas Strømstad",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "open": "^8.4.0"
   }
 }

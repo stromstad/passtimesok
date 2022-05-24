@@ -1,9 +1,12 @@
 const axios = require('axios');
+const open = require('open');
 
 var includeEmpty = false;
 var branchSearch = [];
 var poll = false;
 var top = false;
+var beforeDate = null;
+var hasOpenedBrowser = false;
 var progress = 0;
 
 process.argv.forEach((v, i) => {
@@ -16,6 +19,8 @@ process.argv.forEach((v, i) => {
         case "--poll": poll = true; break;
         case "-t":
         case "--top": top = true; break;
+        case "-d":
+        case "--date": beforeDate = process.argv[i+1]; break;
     }
 });
 
@@ -34,11 +39,17 @@ const search = () => {
                 process.stdout.write("\n");
                 var results = values
                     .sort((a, b) => (new Date(a.firstDate ? a.firstDate : 0)).getTime() - (new Date(b.firstDate ? b.firstDate : 0)).getTime())
-                    .filter(v => includeEmpty || v.firstDate !== undefined)
-                    .map(r => `${r.branch}: ${r.firstDate || "ingen"}`)
-                    ;
-                    if (top) process.stdout.write(`${results[0]}\n`);
-                    else process.stdout.write(results.join("\n"));
+                    .filter(v => includeEmpty || v.firstDate !== undefined);
+                var stringResults = results.map(r => `${r.branch}: ${r.firstDate || "ingen"}`);
+
+                    if (!hasOpenedBrowser && (beforeDate && new Date(results[0].firstDate).getTime() < new Date(beforeDate).getTime())) {
+                        open(`https://pass-og-id.politiet.no/timebestilling/index.html#/preselect/branch/${results[0].id}?preselectFilters=off`
+                            , { app: 'firefox'});
+                        hasOpenedBrowser = true;
+                    }
+
+                    if (top) process.stdout.write(`${stringResults[0]}\n`);
+                    else process.stdout.write(stringResults.join("\n"));
             });
             
             }
@@ -56,9 +67,9 @@ const getBranchDates = (branchPublicId, branchName, progressTickSize) => axios
         .then((res) => {
             progress += progressTickSize;
             process.stdout.write(`\r${progress.toFixed(2)}%`);
-            return { branch: branchName, firstDate: res.data.find(d => d.date)?.date };
+            return { branch: branchName, firstDate: res.data.find(d => d.date)?.date, id: branchPublicId };
         })
         .catch(_ => {
             console.error("Fikk ikke hentet data for ", branchName);
-            return { branch: branchName, firstDate: null }
+            return { branch: branchName, firstDate: null, id: branchPublicId  }
         });
