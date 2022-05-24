@@ -5,10 +5,20 @@ Bruk:
 node main.js
 
 Options:
+
 -i --includeEmpty : inkluderer også kontorer som ikke har noen ledige timer i resultatet
 
 
 -b --branches <kommaseparert liste av søkeord> : lister kun ut kontorer som treffer på et av søkeordene
+
+
+-p --poll : Spør igjen og igjen og igjen
+
+
+-t --top : Vis bare den første ledige (fungerer ikke med -i)
+
+
+-d --date : Set et terskeldato. Hvis en time blir funnet før denne datoen så åpnes Firefox med riktig kontor valgt
 
 F.eks:
 ```
